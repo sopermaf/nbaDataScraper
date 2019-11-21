@@ -30,15 +30,28 @@ class NBAGame:
         self.__visitingTeam = NBATeam(gameData, isHomeTeam=False)
         
         self.__hasStarted = False if gameData['statusNum'] == 1 else True
-        self.__startDateTime = gameData['startTimeUTC'] # TODO: transform into local date and time
         self.__highlightInfo = gameData['nugget']['text']
 
+        self.__startDateTime = NBAGame.transformDateTimeToReadable(
+                                    gameData['startTimeUTC']
+                               )
+        
+
+    @staticmethod
+    def transformDateTimeToReadable(nbaFormatDateTime):
+        '''Transform the request format datetime
+        to a human readable format for presentation
+        '''
+        # TODO: add in time localisation for user
+        dtObj = datetime.strptime(nbaFormatDateTime, '%Y-%m-%dT%X.%fZ')
+        return dtObj.strftime('%H:%M on %a %d-%m-%y')
 
     def __str__(self):
         return f"{self.__homeTeam} - {self.__visitingTeam}"
 
     def print(self):
         print(f'GAME STARTED: {self.__hasStarted}')
+        print(f'Start Time: {self.__startDateTime}')
         print(f'{self.__homeTeam.name} vs {self.__visitingTeam.name}')
         if self.__hasStarted:
             print(f'{self.__homeTeam.pointsScored} - {self.__visitingTeam.pointsScored}')
