@@ -1,5 +1,7 @@
 import json
 import requests
+import re
+from datetime import datetime
 
 
 BASE_URL = 'http://data.nba.com'
@@ -15,6 +17,8 @@ class NBATeam:
         self.seasonWins = gameInfo[teamKey]['win']
         self.seasonLosses = gameInfo[teamKey]['loss']
 
+    def getTeamRecord(self):
+        return f"{self.seasonWins} - {self.seasonLosses}"
         
     def __str__(self):
         return f"Name: {self.name} Scored: {self.pointsScored}"
@@ -47,7 +51,12 @@ class NBAGameDay:
         self.numGames = -1
         self.initialized = False
 
-    def __getDataRemote(self, gameDayDate):
+    @staticmethod
+    def converIsoDateToNbaDate(isoDate):
+        return re.sub('-', '', isoDate)
+
+    def __getDataRemote(self, isoDate):
+        gameDayDate = NBAGameDay.converIsoDateToNbaDate(isoDate)
         requestURL = f'{BASE_URL}/data/10s/prod/v1/{gameDayDate}/scoreboard.json'
         response = requests.get(requestURL)
         if response.status_code != 200:
