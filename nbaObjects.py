@@ -85,6 +85,6 @@ class NBAGameDay:
             )
         print(f"Num of Games: {self.numGames}\n")
         for i, game in enumerate(self.games):
-            print(f'Game {i} of {self.numGames}')
+            print(f'Game {i+1} of {self.numGames}')
             game.print()
             print(f'\n')

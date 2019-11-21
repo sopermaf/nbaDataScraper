@@ -5,11 +5,22 @@ NBA team and include info on upcoming
 games as well as their record
 '''
 import json
+import sys
 from nbaObjects import NBAGameDay
 
-dayData = NBAGameDay()
 
-dayData.initDataLocalFile('mock_data/pastGameData.json')
-#dayData.initDataRemote('20191122')
+if __name__=="__main__":
+    retrievalMethod = sys.argv[1] # -f || -r
+    retrievalRef = sys.argv[2] # filename or date YYYYMMDD
 
-dayData.print()
+    dayData = NBAGameDay()
+    if retrievalMethod == '-f':
+        dayData.initDataLocalFile(retrievalRef)
+    elif retrievalMethod == '-r':
+        dayData.initDataRemote(retrievalRef)
+    else:
+        raise ValueError(
+            'INVALID ARGS'
+        )
+    
+    dayData.print()
