@@ -30,6 +30,7 @@ class NBAGame:
         self.__visitingTeam = NBATeam(gameData, isHomeTeam=False)
         
         self.__hasStarted = False if gameData['statusNum'] == 1 else True
+        self.__startDateTime = gameData['startTimeUTC'] # TODO: transform into local date and time
         self.__highlightInfo = gameData['nugget']['text']
 
         self.__startDateTime = NBAGame.transformDateTimeToReadable(
