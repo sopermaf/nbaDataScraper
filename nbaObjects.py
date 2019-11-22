@@ -18,7 +18,7 @@ class NBATeam:
         self.seasonLosses = gameInfo[teamKey]['loss']
 
     def getTeamRecord(self):
-        return f"{self.seasonWins} - {self.seasonLosses}"
+        return f"{self.seasonWins}-{self.seasonLosses}"
         
     def __str__(self):
         return f"Name: {self.name} Scored: {self.pointsScored}"
@@ -44,15 +44,20 @@ class NBAGame:
         '''
         # TODO: add in time localisation for user
         dtObj = datetime.strptime(nbaFormatDateTime, '%Y-%m-%dT%X.%fZ')
-        return dtObj.strftime('%H:%M on %a %d-%m-%y')
+        return dtObj.strftime('%H:%M %a %d-%m-%y')
 
     def __str__(self):
         return f"{self.__homeTeam} - {self.__visitingTeam}"
 
     def print(self):
-        print(f'GAME STARTED: {self.__hasStarted}')
-        print(f'Start Time: {self.__startDateTime}')
-        print(f'{self.__homeTeam.name} vs {self.__visitingTeam.name}')
+        #print(f'GAME STARTED: {self.__hasStarted}')
+        print(f'{self.__startDateTime}')
+        print('{0} vs {2}\n({1}) ({3})'.format(
+            self.__homeTeam.name,
+            self.__homeTeam.getTeamRecord(),
+            self.__visitingTeam.name,
+            self.__visitingTeam.getTeamRecord(),
+        ))
         if self.__hasStarted:
             print(f'{self.__homeTeam.pointsScored} - {self.__visitingTeam.pointsScored}')
             print(self.__highlightInfo)
