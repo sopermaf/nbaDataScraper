@@ -2,9 +2,11 @@ import json
 import requests
 import re
 from datetime import datetime
+from nba_data_utils.nbaTeamData import nbaTeams
 
 
 BASE_URL = 'http://data.nba.com'
+NBA_TEAM_DATA = nbaTeams
 
 
 class NBATeam:
@@ -12,10 +14,14 @@ class NBATeam:
         teamKey = 'hTeam' if isHomeTeam else 'vTeam'
         # TODO: add method to extract full team name
         # extract the request info
-        self.name = gameInfo[teamKey]['triCode']
         self.pointsScored = gameInfo[teamKey]['score']
         self.seasonWins = gameInfo[teamKey]['win']
         self.seasonLosses = gameInfo[teamKey]['loss']
+
+        self.team_key = gameInfo[teamKey]['triCode']
+        self.name = NBA_TEAM_DATA[self.team_key]['nickname']
+        self.city = NBA_TEAM_DATA[self.team_key]['city']
+        
 
     def getTeamRecord(self):
         return f"{self.seasonWins}-{self.seasonLosses}"
